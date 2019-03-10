@@ -3,14 +3,34 @@ function startDataUpload() {
     var surname = document.getElementById("surname").value;
     var module = document.getElementById("module").value;
     var postString = "name="+name +"&surname="+surname+"&module="+module;
-    processData(postString);
+    // now get the checkbox values - separate them with a | so that they can be
+    // split later on if necessary
+    var checkString = "";
+    for (var i = 1;i< 5;i++){
+        if (document.getElementById("check"+i).checked === true) {
+            checkString += document.getElementById("check"+i).value + "||"
+        }
+    }
+    postString = postString + "&modulelist="+checkString;
+    // now get the radio button values
+    if (document.getElementById("morning").checked) {
+        postString=postString+"&lecturetime=morning";        
+    }
+    if (document.getElementById("afternoon").checked) {
+        postString=postString+"&lecturetime=afternoon";
+    }
+    // now get the select box values
+    var language = document.getElementById("languageselectbox").value;
+    postString = postString + "&language="+language;
+    document.getElementById("dataUploadResult").innerHTML = postString;
+    // processData(postString);
 }
 
 
 var client; // the global variable that holds the request
-function processData(postString) {
+function processData(postString) {    
     client = new XMLHttpRequest();
-    client.open('post', 'http://developer.cege.ucl.ac.uk:30250/reflectData', true);
+    client.open('POST', 'http://developer.cege.ucl.ac.uk:30250/reflectData', true);
     client.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     client.onreadystatechange = dataUploaded;
     client.send(postString);
