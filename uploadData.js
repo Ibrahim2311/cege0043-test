@@ -22,6 +22,11 @@ function startDataUpload() {
     // now get the select box values
     var language = document.getElementById("languageselectbox").value;
     postString = postString + "&language="+language;
+
+    var latitude = document.getElementById("latitude").value;
+    var longitude = document.getElementById("longitude").value;
+    postString += "&latitude=" + latitude + "&longitude=" + longitude;
+    alert(postString)
     document.getElementById("dataUploadResult").innerHTML = postString;
     // processData(postString);
 }
